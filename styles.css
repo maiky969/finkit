@@ -26,9 +26,11 @@
   --sky-top: oklch(0.83 0.045 240);
   --sky-mid: oklch(0.91 0.03 236);
   --sky-low: oklch(0.965 0.012 230);
-  --cloud-1: oklch(0.97 0.02 220 / 0.9);
-  --cloud-2: oklch(0.78 0.07 250 / 0.55);
-  --cloud-3: oklch(0.9 0.05 200 / 0.6);
+  --cloud-1: oklch(0.99 0.01 220);
+  --cloud-2: oklch(0.62 0.11 255);
+  --cloud-3: oklch(0.82 0.08 200);
+  --cloud-4: oklch(0.74 0.08 290);
+  --cloud-5: oklch(0.55 0.12 245);
 
   /* текст */
   --ink: oklch(0.24 0.035 252);
@@ -36,12 +38,14 @@
   --ink-3: oklch(0.55 0.03 248);
 
   /* стекло */
-  --glass: oklch(1 0 0 / 0.52);
-  --glass-strong: oklch(0.99 0.006 235 / 0.78);
-  --glass-edge: oklch(1 0 0 / 0.75);
-  --glass-line: oklch(0.6 0.04 245 / 0.18);
-  --glass-shadow: 0 10px 30px -12px oklch(0.4 0.08 250 / 0.28), 0 2px 6px -2px oklch(0.4 0.06 250 / 0.12);
-  --blur: blur(22px) saturate(170%);
+  --glass: linear-gradient(145deg, oklch(1 0 0 / 0.5) 0%, oklch(1 0 0 / 0.22) 55%, oklch(1 0 0 / 0.32) 100%);
+  --glass-strong: oklch(0.98 0.01 235 / 0.62);
+  --glass-edge: oklch(1 0 0 / 0.95);
+  --glass-rim: linear-gradient(140deg, oklch(1 0 0 / 0.95) 0%, oklch(1 0 0 / 0.35) 30%, oklch(1 0 0 / 0.08) 60%, oklch(1 0 0 / 0.55) 100%);
+  --glass-glow: inset 0 0 24px oklch(1 0 0 / 0.25);
+  --glass-line: oklch(0.45 0.05 248 / 0.16);
+  --glass-shadow: 0 18px 40px -18px oklch(0.35 0.1 252 / 0.45), 0 3px 10px -4px oklch(0.35 0.08 252 / 0.18);
+  --blur: blur(18px) saturate(190%) brightness(1.06);
 
   /* смысловые цвета */
   --accent: oklch(0.5 0.13 252);
@@ -70,15 +74,19 @@
     --sky-top: oklch(0.2 0.04 255);
     --sky-mid: oklch(0.17 0.035 252);
     --sky-low: oklch(0.14 0.03 250);
-    --cloud-1: oklch(0.36 0.07 250 / 0.55);
-    --cloud-2: oklch(0.3 0.08 270 / 0.5);
-    --cloud-3: oklch(0.34 0.06 215 / 0.45);
+    --cloud-1: oklch(0.45 0.12 250);
+    --cloud-2: oklch(0.32 0.12 275);
+    --cloud-3: oklch(0.42 0.1 210);
+    --cloud-4: oklch(0.3 0.1 300);
+    --cloud-5: oklch(0.4 0.11 240);
     --ink: oklch(0.96 0.01 240);
     --ink-2: oklch(0.8 0.025 242);
     --ink-3: oklch(0.68 0.03 245);
-    --glass: oklch(0.32 0.03 250 / 0.42);
-    --glass-strong: oklch(0.24 0.03 252 / 0.86);
-    --glass-edge: oklch(1 0 0 / 0.12);
+    --glass: linear-gradient(145deg, oklch(1 0 0 / 0.14) 0%, oklch(1 0 0 / 0.05) 55%, oklch(1 0 0 / 0.09) 100%);
+    --glass-strong: oklch(0.22 0.035 252 / 0.72);
+    --glass-edge: oklch(1 0 0 / 0.3);
+    --glass-rim: linear-gradient(140deg, oklch(1 0 0 / 0.45) 0%, oklch(1 0 0 / 0.1) 30%, oklch(1 0 0 / 0.03) 60%, oklch(1 0 0 / 0.22) 100%);
+    --glass-glow: inset 0 0 24px oklch(0.8 0.08 240 / 0.08);
     --glass-line: oklch(1 0 0 / 0.08);
     --glass-shadow: 0 14px 34px -14px oklch(0 0 0 / 0.6), 0 2px 6px -2px oklch(0 0 0 / 0.35);
     --accent: oklch(0.74 0.11 240);
@@ -98,15 +106,19 @@
   --sky-top: oklch(0.2 0.04 255);
   --sky-mid: oklch(0.17 0.035 252);
   --sky-low: oklch(0.14 0.03 250);
-  --cloud-1: oklch(0.36 0.07 250 / 0.55);
-  --cloud-2: oklch(0.3 0.08 270 / 0.5);
-  --cloud-3: oklch(0.34 0.06 215 / 0.45);
+  --cloud-1: oklch(0.45 0.12 250);
+  --cloud-2: oklch(0.32 0.12 275);
+  --cloud-3: oklch(0.42 0.1 210);
+  --cloud-4: oklch(0.3 0.1 300);
+  --cloud-5: oklch(0.4 0.11 240);
   --ink: oklch(0.96 0.01 240);
   --ink-2: oklch(0.8 0.025 242);
   --ink-3: oklch(0.68 0.03 245);
-  --glass: oklch(0.32 0.03 250 / 0.42);
-  --glass-strong: oklch(0.24 0.03 252 / 0.86);
-  --glass-edge: oklch(1 0 0 / 0.12);
+  --glass: linear-gradient(145deg, oklch(1 0 0 / 0.14) 0%, oklch(1 0 0 / 0.05) 55%, oklch(1 0 0 / 0.09) 100%);
+  --glass-strong: oklch(0.22 0.035 252 / 0.72);
+  --glass-edge: oklch(1 0 0 / 0.3);
+  --glass-rim: linear-gradient(140deg, oklch(1 0 0 / 0.45) 0%, oklch(1 0 0 / 0.1) 30%, oklch(1 0 0 / 0.03) 60%, oklch(1 0 0 / 0.22) 100%);
+  --glass-glow: inset 0 0 24px oklch(0.8 0.08 240 / 0.08);
   --glass-line: oklch(1 0 0 / 0.08);
   --glass-shadow: 0 14px 34px -14px oklch(0 0 0 / 0.6), 0 2px 6px -2px oklch(0 0 0 / 0.35);
   --accent: oklch(0.74 0.11 240);
@@ -135,7 +147,7 @@ body {
   font-size: 16px;
   line-height: 1.45;
   color: var(--ink);
-  background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 42%, var(--sky-low) 100%) fixed;
+  background: transparent;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
   font-variant-numeric: tabular-nums;
@@ -152,19 +164,35 @@ h1, h2, h3, p { margin: 0; }
 .ico { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; flex: none; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-/* облака за стеклом: стеклу нужно, что размывать */
-.sky { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
-.sky span { position: absolute; border-radius: 50%; filter: blur(60px); }
-.sky span:nth-child(1) { width: 70vw; height: 70vw; max-width: 520px; max-height: 520px; top: -12%; right: -18%; background: var(--cloud-1); }
-.sky span:nth-child(2) { width: 80vw; height: 60vw; max-width: 560px; max-height: 420px; top: 30%; left: -30%; background: var(--cloud-2); }
-.sky span:nth-child(3) { width: 60vw; height: 60vw; max-width: 440px; max-height: 440px; bottom: -10%; right: -15%; background: var(--cloud-3); }
+/* Небо за стеклом. Стеклу нужно, что размывать: облака разного цвета и формы, медленно плывут */
+.sky { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 42%, var(--sky-low) 100%); }
+.sky span { position: absolute; border-radius: 50%; filter: blur(42px); will-change: transform; animation: drift 38s ease-in-out infinite alternate; }
+.sky span:nth-child(1) { width: 62vw; height: 62vw; max-width: 460px; max-height: 460px; top: -10%; right: -14%; background: var(--cloud-1); }
+.sky span:nth-child(2) { width: 78vw; height: 56vw; max-width: 560px; max-height: 400px; top: 18%; left: -34%; background: var(--cloud-2); animation-duration: 46s; animation-delay: -12s; }
+.sky span:nth-child(3) { width: 58vw; height: 58vw; max-width: 420px; max-height: 420px; top: 46%; right: -22%; background: var(--cloud-3); animation-duration: 52s; animation-delay: -20s; }
+.sky span:nth-child(4) { width: 50vw; height: 40vw; max-width: 380px; max-height: 300px; top: 70%; left: -10%; background: var(--cloud-4); animation-duration: 42s; animation-delay: -6s; }
+.sky span:nth-child(5) { width: 40vw; height: 40vw; max-width: 300px; max-height: 300px; top: 4%; left: 8%; background: var(--cloud-5); opacity: 0.55; animation-duration: 60s; animation-delay: -30s; }
+@keyframes drift {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(6vw, 4vh, 0) scale(1.08); }
+  100% { transform: translate3d(-5vw, -3vh, 0) scale(0.96); }
+}
 
+/* Стекло: прозрачная заливка, размытие и усиление цвета под ним, светлая кромка-блик по краю, свечение изнутри */
 .glass {
   background: var(--glass);
   -webkit-backdrop-filter: var(--blur);
   backdrop-filter: var(--blur);
-  border: 1px solid var(--glass-line);
-  box-shadow: inset 0 1px 0 var(--glass-edge), var(--glass-shadow);
+  border: 1px solid transparent;
+  box-shadow: inset 0 1px 0 var(--glass-edge), var(--glass-glow), var(--glass-shadow);
+}
+.glass:not(.tabbar) { position: relative; }
+.glass::before {
+  content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; pointer-events: none;
+  background: var(--glass-rim);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
 }
 
 /* ---------- Каркас ---------- */
@@ -449,6 +477,13 @@ button.row:active { background: var(--accent-soft); }
 .tab-add:focus-visible { outline: none; }
 .tab-add:focus-visible span { outline: 2px solid var(--accent); outline-offset: 3px; }
 .tab-add .ico { width: 28px; height: 28px; stroke-width: 2.25; }
+
+/* меню — самое плотное стекло: под ним бежит список, текст не должен читаться */
+.tabbar.glass {
+  background: var(--glass-strong);
+  -webkit-backdrop-filter: blur(30px) saturate(190%);
+  backdrop-filter: blur(30px) saturate(190%);
+}
 
 /* ---------- Нижняя панель (sheet) ---------- */
 .sheet-layer { position: fixed; inset: 0; z-index: 40; }

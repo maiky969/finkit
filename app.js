@@ -4,7 +4,7 @@
   'use strict';
 
   var KEY = 'finkit:v1';
-  var VERSION = '1.0';
+  var VERSION = '1.1';
 
   /* ---------- Тексты ---------- */
   var I18N = {
