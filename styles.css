@@ -59,6 +59,14 @@
   --series-1: #2a78d6;
   --series-2: #eb6834;
   --series-other: #8d9aab;
+  --livery-red: oklch(0.56 0.21 27);
+  --jet-body: oklch(0.99 0.004 240);
+  --jet-belly: oklch(0.86 0.012 245);
+  --jet-wing: oklch(0.88 0.012 245);
+  --jet-engine: oklch(0.8 0.015 245);
+  --jet-cockpit: oklch(0.3 0.04 250);
+  --jet-window: oklch(0.42 0.04 250);
+  --contrail: oklch(1 0 0 / 0.9);
   --r-lg: 28px;
   --r-md: 20px;
   --r-sm: 14px;
@@ -99,6 +107,14 @@
     --series-1: #3987e5;
     --series-2: #d95926;
     --series-other: #5f6c7d;
+    --livery-red: oklch(0.48 0.17 27);
+    --jet-body: oklch(0.7 0.02 250);
+    --jet-belly: oklch(0.55 0.02 250);
+    --jet-wing: oklch(0.6 0.02 250);
+    --jet-engine: oklch(0.5 0.02 250);
+    --jet-cockpit: oklch(0.2 0.03 250);
+    --jet-window: oklch(0.9 0.12 85);
+    --contrail: oklch(0.85 0.03 240 / 0.45);
   }
 }
 :root[data-theme='dark'] {
@@ -131,6 +147,14 @@
   --series-1: #3987e5;
   --series-2: #d95926;
   --series-other: #5f6c7d;
+  --livery-red: oklch(0.48 0.17 27);
+  --jet-body: oklch(0.7 0.02 250);
+  --jet-belly: oklch(0.55 0.02 250);
+  --jet-wing: oklch(0.6 0.02 250);
+  --jet-engine: oklch(0.5 0.02 250);
+  --jet-cockpit: oklch(0.2 0.03 250);
+  --jet-window: oklch(0.9 0.12 85);
+  --contrail: oklch(0.85 0.03 240 / 0.45);
 }
 
 /* ---------- База ---------- */
@@ -176,6 +200,94 @@ h1, h2, h3, p { margin: 0; }
   0% { transform: translate3d(0, 0, 0) scale(1); }
   50% { transform: translate3d(6vw, 4vh, 0) scale(1.08); }
   100% { transform: translate3d(-5vw, -3vh, 0) scale(0.96); }
+}
+
+/* Лайнер раз в 30 секунд пролетает по небу под стеклом */
+.flyby {
+  position: absolute; top: calc(var(--safe-top) + 4px); left: 0; width: 120px; opacity: 0;
+  animation: flyby 30s linear 2.4s infinite;
+}
+.liner { display: block; width: 100%; height: auto; overflow: visible; filter: drop-shadow(0 4px 6px oklch(0.35 0.08 250 / 0.35)); }
+.contrail {
+  position: absolute; right: 90%; top: 62%; width: 46vw; max-width: 340px; height: 2px; border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--contrail) 85%);
+}
+.contrail.is-soft { top: calc(62% - 3px); height: 8px; filter: blur(4px); opacity: 0.55; }
+.beacon, .strobe, .nav { opacity: 0; }
+@keyframes flyby {
+  0% { transform: translate3d(-160px, 34px, 0) rotate(-2.5deg); opacity: 0; }
+  1.5% { opacity: 1; }
+  44% { transform: translate3d(calc(100vw + 40px), 4px, 0) rotate(-2.5deg); opacity: 1; }
+  45%, 100% { transform: translate3d(calc(100vw + 40px), 4px, 0) rotate(-2.5deg); opacity: 0; }
+}
+/* ночью: огни мигают */
+:root[data-theme='dark'] .beacon, :root[data-theme='dark'] .nav-red { fill: oklch(0.65 0.24 27); animation: blink 1.4s steps(1) infinite; }
+:root[data-theme='dark'] .strobe { fill: #fff; animation: strobe 1.4s steps(1) infinite 0.3s; }
+:root[data-theme='dark'] .nav-green { fill: oklch(0.8 0.2 150); opacity: 1; }
+:root[data-theme='dark'] .liner { filter: drop-shadow(0 0 6px oklch(0.6 0.1 240 / 0.35)); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .beacon, :root:not([data-theme='light']) .nav-red { fill: oklch(0.65 0.24 27); animation: blink 1.4s steps(1) infinite; }
+  :root:not([data-theme='light']) .strobe { fill: #fff; animation: strobe 1.4s steps(1) infinite 0.3s; }
+  :root:not([data-theme='light']) .nav-green { fill: oklch(0.8 0.2 150); opacity: 1; }
+  :root:not([data-theme='light']) .liner { filter: drop-shadow(0 0 6px oklch(0.6 0.1 240 / 0.35)); }
+}
+@keyframes blink { 0%, 60% { opacity: 1; } 61%, 100% { opacity: 0.15; } }
+@keyframes strobe { 0%, 8% { opacity: 1; } 9%, 100% { opacity: 0; } }
+
+/* Заставка: небо-занавес уходит вверх вместе с самолётом, под ним открывается главная */
+.intro { position: fixed; inset: 0; z-index: 100; overflow: hidden; cursor: pointer; animation: intro-gone 0s linear 1.85s forwards; }
+.intro-cover {
+  position: absolute; left: 0; right: 0; top: 0; height: calc(100lvh + 420px);
+  animation: intro-lift 1.45s cubic-bezier(0.42, 0.04, 0.58, 0.97) 0.35s forwards;
+  will-change: transform;
+}
+.intro-sky {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(60% 40% at 80% 12%, var(--cloud-1), transparent 70%),
+    radial-gradient(70% 45% at 10% 45%, color-mix(in oklch, var(--cloud-2) 70%, transparent), transparent 70%),
+    radial-gradient(60% 40% at 90% 70%, color-mix(in oklch, var(--cloud-3) 70%, transparent), transparent 70%),
+    linear-gradient(180deg, var(--sky-top), var(--sky-mid) 50%, var(--sky-low));
+  -webkit-mask: linear-gradient(180deg, #000 calc(100% - 300px), transparent calc(100% - 60px));
+  mask: linear-gradient(180deg, #000 calc(100% - 300px), transparent calc(100% - 60px));
+}
+.intro-word {
+  position: absolute; left: 0; right: 0; top: 38lvh; text-align: center;
+  font-size: 46px; font-weight: 800; letter-spacing: -0.04em; color: var(--ink);
+  animation: intro-word 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.intro-plane {
+  position: absolute; left: 50%; bottom: 40px; width: min(44vw, 190px); aspect-ratio: 120 / 140;
+  transform: translateX(-50%);
+}
+.jet, .jet-shadow { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.jet { animation: intro-jet 1.45s cubic-bezier(0.42, 0.04, 0.58, 0.97) 0.35s both; filter: drop-shadow(0 2px 2px oklch(0.3 0.05 250 / 0.25)); }
+.jet-shadow { filter: brightness(0) blur(5px); opacity: 0.16; transform: translate(26%, 30%) scale(0.86); }
+.trail {
+  position: absolute; top: 60%; width: 6px; height: 38lvh; border-radius: 6px;
+  background: linear-gradient(180deg, var(--contrail), transparent 85%);
+  filter: blur(2px);
+  transform-origin: top; animation: intro-trail 1.3s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both;
+}
+.t-left { left: calc(27.5% - 3px); }
+.t-right { left: calc(72.5% - 3px); }
+@keyframes intro-lift { to { transform: translateY(calc(-100lvh - 640px)); } }
+@keyframes intro-jet { from { transform: scale(0.9); } to { transform: scale(1.12); } }
+@keyframes intro-trail { 0% { transform: scaleY(0) scaleX(0.6); opacity: 1; } 55% { opacity: 0.9; } 100% { transform: scaleY(1) scaleX(1.8); opacity: 0; } }
+@keyframes intro-word { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes intro-gone { to { visibility: hidden; pointer-events: none; } }
+.intro.is-skip { animation: intro-skip 0.22s ease-out forwards; }
+@keyframes intro-skip { to { opacity: 0; visibility: hidden; } }
+
+/* главная выезжает из-под занавеса, меню поднимается следом */
+body.intro-run .app { animation: app-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.55s both; }
+body.intro-run .tabbar { animation: tab-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.2s both; }
+@keyframes app-in { from { transform: translateY(48px) scale(0.97); } to { transform: none; } }
+@keyframes tab-in { from { translate: 0 160%; } to { translate: 0 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .intro, .flyby { display: none; }
+  body.intro-run .app, body.intro-run .tabbar { animation: none; }
 }
 
 /* Стекло: прозрачная заливка, размытие и усиление цвета под ним, светлая кромка-блик по краю, свечение изнутри */

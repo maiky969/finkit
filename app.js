@@ -4,7 +4,7 @@
   'use strict';
 
   var KEY = 'finkit:v1';
-  var VERSION = '1.1';
+  var VERSION = '1.2';
 
   /* ---------- Тексты ---------- */
   var I18N = {
@@ -1556,6 +1556,24 @@
   });
 
   render();
+
+  // Заставка: сама уезжает по CSS; здесь только пропуск по нажатию и уборка
+  (function () {
+    var intro = document.getElementById('intro');
+    if (!intro) return;
+    var done = function () {
+      if (!intro.parentNode) return;
+      intro.parentNode.removeChild(intro);
+      document.body.classList.remove('intro-run');
+    };
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { done(); return; }
+    intro.addEventListener('click', function () {
+      intro.classList.add('is-skip');
+      document.body.classList.remove('intro-run');
+      setTimeout(done, 240);
+    });
+    setTimeout(done, 1900);
+  })();
 
   if ('serviceWorker' in navigator && location.protocol !== 'file:') {
     window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });

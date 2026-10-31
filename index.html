@@ -31,7 +31,7 @@
       })();
     </script>
   </head>
-  <body>
+  <body class="intro-run">
     <!-- Иконки: один набор, линия 1.75, скруглённые концы -->
     <svg class="sprite" aria-hidden="true" focusable="false">
       <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V19a1 1 0 0 1-1 1h-4.5v-5.5h-5V20H5a1 1 0 0 1-1-1z" /></symbol>
@@ -68,9 +68,56 @@
       <symbol id="c-dots" viewBox="0 0 24 24"><path d="M6 12h.01M12 12h.01M18 12h.01" /></symbol>
       <symbol id="c-wallet" viewBox="0 0 24 24"><path d="M5 9V7.5A1.5 1.5 0 0 1 6.5 6H17v3" /><rect x="4" y="9" width="16" height="10.5" rx="2" /><path d="M15.5 14.25h1" /></symbol>
       <symbol id="c-coins" viewBox="0 0 24 24"><ellipse cx="10" cy="7" rx="5.5" ry="2.5" /><path d="M4.5 7v4c0 1.4 2.5 2.5 5.5 2.5s5.5-1.1 5.5-2.5V7" /><path d="M8 16c.8.9 2.4 1.5 4.5 1.5 3 0 5.5-1.1 5.5-2.5v-4c0-.9-1-1.7-2.5-2.1" /></symbol>
+      <!-- Самолёты: свой рисунок, раскраска-намёк (белый корпус, красный хвост), без логотипов -->
+      <symbol id="p-side" viewBox="0 0 240 64">
+        <path d="M22 33 L30 34 H62 L28 38 Z" fill="var(--jet-wing)" />
+        <path d="M24 30 L11 5 H25 L50 27 Z" fill="var(--livery-red)" />
+        <path d="M18 31 Q24 26 42 26 H190 Q220 26 234 36 Q222 42 196 42 H46 Q28 42 18 31 Z" fill="var(--jet-body)" />
+        <path d="M46 40 H196 Q214 40 226 38.5 Q214 42 196 42 H46 Q36 42 30 39 Z" fill="var(--jet-belly)" />
+        <path d="M213 30 L224 31.5 L222.5 34 L211 33 Z" fill="var(--jet-cockpit)" />
+        <g fill="var(--jet-window)">
+          <circle cx="62" cy="31.5" r="1.3" /><circle cx="69" cy="31.5" r="1.3" /><circle cx="76" cy="31.5" r="1.3" /><circle cx="83" cy="31.5" r="1.3" />
+          <circle cx="90" cy="31.5" r="1.3" /><circle cx="97" cy="31.5" r="1.3" /><circle cx="104" cy="31.5" r="1.3" /><circle cx="111" cy="31.5" r="1.3" />
+          <circle cx="118" cy="31.5" r="1.3" /><circle cx="125" cy="31.5" r="1.3" /><circle cx="132" cy="31.5" r="1.3" /><circle cx="139" cy="31.5" r="1.3" />
+          <circle cx="146" cy="31.5" r="1.3" /><circle cx="153" cy="31.5" r="1.3" /><circle cx="160" cy="31.5" r="1.3" /><circle cx="167" cy="31.5" r="1.3" />
+          <circle cx="174" cy="31.5" r="1.3" /><circle cx="181" cy="31.5" r="1.3" /><circle cx="188" cy="31.5" r="1.3" />
+        </g>
+        <path d="M150 37 L104 56 H118 L162 39 Z" fill="var(--jet-wing)" />
+        <rect x="122" y="40" width="26" height="9" rx="4.5" fill="var(--jet-engine)" />
+        <rect x="140" y="41.5" width="7" height="6" rx="3" fill="var(--jet-belly)" />
+      </symbol>
+      <symbol id="p-top" viewBox="0 0 120 140">
+        <path d="M54 54 L4 82 V90 L54 78 Z M66 54 L116 82 V90 L66 78 Z" fill="var(--jet-wing)" />
+        <path d="M4 82 V90 L9 88.6 V83.3 Z M116 82 V90 L111 88.6 V83.3 Z" fill="var(--livery-red)" />
+        <ellipse cx="33" cy="72" rx="4.2" ry="9" fill="var(--jet-engine)" />
+        <ellipse cx="87" cy="72" rx="4.2" ry="9" fill="var(--jet-engine)" />
+        <path d="M54 116 L33 127 V132 L55 127 Z M66 116 L87 127 V132 L65 127 Z" fill="var(--jet-wing)" />
+        <path d="M60 4 C66 4 68 14 68 26 V112 C68 124 64 133 60 136 C56 133 52 124 52 112 V26 C52 14 54 4 60 4 Z" fill="var(--jet-body)" />
+        <path d="M60 4 C64 4 66 9 67 16 Q60 13 53 16 C54 9 56 4 60 4 Z" fill="var(--jet-belly)" />
+        <path d="M55.5 13.5 Q60 11.5 64.5 13.5 L63.5 16.5 Q60 15.3 56.5 16.5 Z" fill="var(--jet-cockpit)" />
+        <rect x="58.6" y="110" width="2.8" height="26" rx="1.4" fill="var(--livery-red)" />
+      </symbol>
     </svg>
 
-    <div class="sky" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="sky" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span>
+      <div class="flyby">
+        <i class="contrail"></i><i class="contrail is-soft"></i>
+        <svg class="liner" viewBox="0 0 240 64"><use href="#p-side" /><circle class="beacon" cx="120" cy="25" r="2.2" /><circle class="strobe" cx="12" cy="6" r="2" /></svg>
+      </div>
+    </div>
+
+    <!-- Заставка: самолёт пролетает снизу вверх и утягивает небо, открывая главный экран -->
+    <div class="intro" id="intro" aria-hidden="true">
+      <div class="intro-cover">
+        <div class="intro-sky"></div>
+        <p class="intro-word">Finkit</p>
+        <div class="intro-plane">
+          <i class="trail t-left"></i><i class="trail t-right"></i>
+          <svg class="jet-shadow" viewBox="0 0 120 140"><use href="#p-top" /></svg>
+          <svg class="jet" viewBox="0 0 120 140"><use href="#p-top" /><circle class="nav nav-red" cx="5" cy="86" r="2" /><circle class="nav nav-green" cx="115" cy="86" r="2" /></svg>
+        </div>
+      </div>
+    </div>
 
     <div id="app" class="app"></div>
 
