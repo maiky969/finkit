@@ -682,6 +682,12 @@ button.row:active { background: var(--accent-soft); }
 
 .sheet-actions { display: flex; gap: 10px; margin-top: 14px; }
 .sheet-actions .btn-primary { flex: 1; }
+/* кнопка подтверждения всегда видна внизу листа */
+.confirm-bar { position: sticky; bottom: calc(-1 * var(--safe-bottom) - 18px); margin: 12px -18px calc(-1 * var(--safe-bottom) - 18px); padding: 10px 18px calc(var(--safe-bottom) + 14px); background: linear-gradient(180deg, transparent, var(--glass-strong) 30%); z-index: 2; }
+.btn-confirm { min-height: 54px; font-size: 16.5px; }
+.btn-confirm span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.btn-confirm[aria-disabled='true'] { background: var(--track); color: var(--ink-2); box-shadow: none; }
+.cats.shake { animation: shake 0.4s; }
 
 /* настройки */
 .field { margin-bottom: 18px; }

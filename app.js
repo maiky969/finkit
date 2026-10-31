@@ -4,7 +4,7 @@
   'use strict';
 
   var KEY = 'finkit:v1';
-  var VERSION = '1.2';
+  var VERSION = '1.3';
 
   /* ---------- Тексты ---------- */
   var I18N = {
@@ -32,7 +32,8 @@
       removeLimit: 'Убрать лимит', limitSaved: 'Лимит сохранён', limitRemoved: 'Лимит убран',
       limitNear: '{c}: {p}% лимита', limitOver: '{c}: лимит превышен',
       yearPassed: 'год прошёл на {p}%', catHint: 'Нажми на категорию, чтобы задать лимит на месяц.',
-      pickGoal: 'Выбери копилку, и готово', saveTab: 'В копилку',
+      pickGoal: 'Набери сумму и выбери копилку', saveTab: 'В копилку',
+      confirmAdd: 'Добавить', needCat: 'Выбери категорию', needGoalPick: 'Выбери копилку', needAmount: 'Введи сумму',
       flowTitle: 'Доходы и расходы', flowHint: 'Нажми на месяц, чтобы посмотреть его подробно.', net: 'Итог',
       avgLine: 'В среднем за месяц: доход {i}, расход {o}', byCat: 'Траты по категориям', byCatHint: 'Траты на жизнь, без обязательных платежей и копилок.',
       otherCats: 'Остальное', chartLabel: 'Доходы и расходы за {n} мес.',
@@ -63,7 +64,7 @@
       emptyOpsPast: 'В этом месяце операций нет.',
       today: 'Сегодня', yesterday: 'Вчера', note: 'Заметка',
       newOp: 'Новая операция', editOp: 'Операция', save: 'Сохранить', del: 'Удалить', close: 'Закрыть',
-      pickCategory: 'Выбери категорию, и готово', pickCategoryEdit: 'Можно поменять сумму, категорию или дату',
+      pickCategory: 'Набери сумму и выбери категорию', pickCategoryEdit: 'Можно поменять сумму, категорию или дату',
       enterAmount: 'Сначала введи сумму', whichDebt: 'Какой платёж?',
       added: 'Добавлено', deleted: 'Удалено', undo: 'Отменить', saved: 'Сохранено',
       language: 'Язык', theme: 'Тема', themeAuto: 'Авто', themeLight: 'Светлая', themeDark: 'Тёмная',
@@ -110,7 +111,8 @@
       removeLimit: 'Remove limit', limitSaved: 'Limit saved', limitRemoved: 'Limit removed',
       limitNear: '{c}: {p}% of limit', limitOver: '{c}: limit exceeded',
       yearPassed: '{p}% of the year gone', catHint: 'Tap a category to set a monthly limit.',
-      pickGoal: 'Pick a goal and you’re done', saveTab: 'Save',
+      pickGoal: 'Enter an amount and pick a goal', saveTab: 'Save',
+      confirmAdd: 'Add', needCat: 'Pick a category', needGoalPick: 'Pick a goal', needAmount: 'Enter an amount',
       flowTitle: 'Income and spending', flowHint: 'Tap a month to see it in detail.', net: 'Net',
       avgLine: 'Monthly average: income {i}, spending {o}', byCat: 'Spending by category', byCatHint: 'Living expenses, excluding fixed payments and goals.',
       otherCats: 'Everything else', chartLabel: 'Income and spending over {n} months',
@@ -141,7 +143,7 @@
       emptyOpsPast: 'No transactions this month.',
       today: 'Today', yesterday: 'Yesterday', note: 'Note',
       newOp: 'New transaction', editOp: 'Transaction', save: 'Save', del: 'Delete', close: 'Close',
-      pickCategory: 'Pick a category and you’re done', pickCategoryEdit: 'Change the amount, category or date',
+      pickCategory: 'Enter an amount and pick a category', pickCategoryEdit: 'Change the amount, category or date',
       enterAmount: 'Enter an amount first', whichDebt: 'Which payment is it?',
       added: 'Added', deleted: 'Deleted', undo: 'Undo', saved: 'Saved',
       language: 'Language', theme: 'Theme', themeAuto: 'Auto', themeLight: 'Light', themeDark: 'Dark',
@@ -1175,7 +1177,7 @@
       '<label class="chip">' + icon('i-calendar') + '<span>' + esc(dateLabel) + '</span><input type="date" id="op-date" value="' + draft.date + '" max="' + isoDate(new Date()) + '" aria-label="' + esc(dateLabel) + '"></label>' +
       '<label class="chip chip-note">' + icon('i-note') + '<input id="op-note" maxlength="80" placeholder="' + esc(t('note')) + '" value="' + esc(draft.note) + '" enterkeyhint="done"></label></div>' +
       '<div class="cats">' + cats.map(function (c) {
-        if (c.goal) return '<button class="cat" type="button" data-action="cat" data-id="' + c.id + '" aria-pressed="false">' + goalIco(c.goal) + '<span>' + esc(c.goal.name) + '</span></button>';
+        if (c.goal) return '<button class="cat" type="button" data-action="cat" data-id="' + c.id + '" aria-pressed="' + (draft.cat === c.id) + '">' + goalIco(c.goal) + '<span>' + esc(c.goal.name) + '</span></button>';
         return '<button class="cat" type="button" data-action="cat" data-id="' + c.id + '" aria-pressed="' + (draft.cat === c.id) + '">' + catIco(c) + '<span>' + esc(catName(c)) + '</span></button>';
       }).join('') + (draft.type === 'save' ? '<button class="cat" type="button" data-action="goal-new"><span class="cat-ico add-ico">' + icon('i-plus') + '</span><span>' + esc(t('newGoal')) + '</span></button>' : '') +
       '</div>' + debtBlock +
@@ -1184,9 +1186,45 @@
         var label = k === '.' ? (data.lang === 'ru' ? ',' : '.') : k;
         return '<button class="key" type="button" data-action="key" data-key="' + k + '">' + label + '</button>';
       }).join('') + '</div>' +
+      (!editing && !draft.prefill ? '<div class="sheet-actions confirm-bar">' + confirmButton() + '</div>' : '') +
       (draft.prefill && !editing ? '<div class="sheet-actions"><button class="btn btn-primary" type="button" data-action="pay-confirm">' + icon('i-check') + esc(t('payNow')) + '</button></div>' : '') +
       (editing ? '<div class="sheet-actions"><button class="btn btn-danger" type="button" data-action="delete">' + icon('i-trash') + esc(t('del')) + '</button>' +
         '<button class="btn btn-primary" type="button" data-action="save-edit">' + esc(t('save')) + '</button></div>' : '');
+  }
+
+  // Кнопка «Добавить · Продукты −45»: пока чего-то не хватает, подсказывает, что именно
+  function confirmState() {
+    var amount = bufFils();
+    var name = null;
+    if (draft.cat) {
+      if (draft.type === 'save') { var g = goalById(draft.cat); name = g && g.name; }
+      else if (draft.cat === 'debt' && draft.debtId) { var pb = payableById(draft.debtId); name = pb ? pb.name : catName(catById('debt')); }
+      else name = catName(catById(draft.cat));
+    }
+    var needPayTarget = draft.cat === 'debt' && !draft.debtId && payables().length > 1;
+    if (!amount) return { ok: false, text: t('needAmount') };
+    if (!name || needPayTarget) return { ok: false, text: draft.type === 'save' ? t('needGoalPick') : (needPayTarget ? t('whichDebt') : t('needCat')) };
+    var sign = draft.type === 'out' ? '−' : '+';
+    return { ok: true, text: (draft.type === 'save' ? t('saveTab') : t('confirmAdd')) + ' · ' + name + ' ' + sign + money(amount) };
+  }
+  function confirmButton() {
+    var st = confirmState();
+    return '<button class="btn btn-primary btn-block btn-confirm" id="confirm-add" type="button" data-action="confirm-add"' + (st.ok ? '' : ' aria-disabled="true"') + '>' +
+      (st.ok ? icon('i-check') : '') + '<span>' + esc(st.text) + '</span></button>';
+  }
+  function updateConfirm() {
+    var b = document.getElementById('confirm-add');
+    if (b) b.outerHTML = confirmButton();
+  }
+  function confirmAdd() {
+    syncDraftFields();
+    var st = confirmState();
+    if (!st.ok) {
+      if (!bufFils()) nudgeAmount();
+      else { var grid = document.querySelector('.cats'); if (grid) { grid.classList.remove('shake'); void grid.offsetWidth; grid.classList.add('shake'); } }
+      return;
+    }
+    if (draft.type === 'save') commitSave(draft.cat); else commitNew();
   }
 
   function pressKey(k) {
@@ -1204,6 +1242,7 @@
     if (view) {
       view.innerHTML = renderAmount();
       view.classList.toggle('is-empty', !draft.buf);
+      updateConfirm();
     }
   }
 
@@ -1222,7 +1261,7 @@
   function chooseCat(id) {
     syncDraftFields();
     draft.cat = id;
-    if (draft.type === 'save') { commitSave(id); return; }
+    if (draft.type === 'save') { drawSheet(); return; }
     var pays = payables();
     if (id === 'debt' && pays.length) {
       if (pays.length === 1) draft.debtId = pays[0].id;
@@ -1230,8 +1269,7 @@
     } else {
       draft.debtId = null; draft.needDebt = false;
     }
-    if (draft.id || draft.prefill) { drawSheet(); return; }
-    commitNew();
+    drawSheet();
   }
 
   function commitSave(goalId) {
@@ -1456,10 +1494,11 @@
       case 'pick-debt':
         syncDraftFields();
         draft.debtId = el.getAttribute('data-id');
-        draft.needDebt = !!(draft.id || draft.prefill); // при правке оставляем выбор видимым
-        if (draft.id || draft.prefill) drawSheet(); else commitNew();
+        draft.needDebt = true; // выбор долга остаётся видимым, сохраняем кнопкой
+        drawSheet();
         break;
       case 'save-edit': saveEdit(); break;
+      case 'confirm-add': confirmAdd(); break;
       case 'goal':
         goalUI = { id: el.getAttribute('data-id'), mode: 'view' };
         if (ui.sheet) { ui.sheet = 'goal'; drawSheet(); } else openSheet('goal');
@@ -1539,6 +1578,7 @@
       if (/^[0-9]$/.test(e.key)) { pressKey(e.key); e.preventDefault(); }
       else if (e.key === '.' || e.key === ',') { pressKey('.'); e.preventDefault(); }
       else if (e.key === 'Backspace') { pressKey('back'); e.preventDefault(); }
+      else if (e.key === 'Enter' && !draft.id && !draft.prefill) { confirmAdd(); e.preventDefault(); }
     }
     if (e.key === 'Enter' && e.target.id === 'limit-input') saveLimit(false);
     if (e.key === 'Enter' && e.target.id === 'obl-amount') saveObl();
